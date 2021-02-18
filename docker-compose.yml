@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  api-server:
+    build: ./ # Build from Dockerfile in current directory
+    env_file: ./config/config.env
+    ports:
+      - "3000:3000" # Bind container port 3000 to local 3000
+    networks:
+      - storybooks-app # Use this network
+    depends_on:
+      - mongo-db # Wait for this container to start
+  mongo-db: # Always try to have different naming than cloned image
+    image: mongo:3.6-xenial
+    environment:
+      - MONGO_INITDB_DATABASE=storybooks
+    ports:
+      - "27017:27017"
+    networks:
+      - storybooks-app
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  storybooks-app:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local # [What is driver local?]

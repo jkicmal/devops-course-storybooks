@@ -1,5 +1,4 @@
 node_modules
 
 # Credentials
-config/config.env
 terraform-sa-key.json
